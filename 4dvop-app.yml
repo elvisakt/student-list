@@ -1,0 +1,32 @@
+- hosts: app_vm
+  become: true
+  tasks:
+    - name: Deploy website 
+      docker_container:
+        name: website
+        hostname: apache
+        image: php:apache
+        state: started
+        depends_on:
+          - api
+        ports:
+          - "5001:80"
+	environment:
+      	  - USERNAME=user
+          - PASSWORD=password
+        volumes:
+          - ./website:/var/www/html
+
+
+    - name: Deploy api
+      docker_container:
+        name: api
+        hostname: simple_api
+        image: elvis061998/4dvop-simple_api
+        state: started
+        links:  
+          - website/apache
+        ports:
+          - "5000:80"
+        volumes: 
+          - ./simple_api:/data/
