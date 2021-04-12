@@ -17,5 +17,3 @@ ADD student_age.json /data/student_age.json
 EXPOSE 5000
 
 CMD [ "python", "./student_age.py" ]
-
-RUN tail -f /dev/null
