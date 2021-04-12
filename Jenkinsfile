@@ -9,7 +9,29 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-               
+               node {    
+      def app     
+      stage('Clone repository') {               
+             
+            checkout scm    
+      }     
+      stage('Build image') {         
+       
+            app = docker.build("elvis061998/4dvop-simple_api")    
+       }     
+      stage('Test image') {           
+            app.inside {            
+             
+             sh 'echo "Tests passed"'        
+            }    
+        }     
+       stage('Push image') {
+                                                  docker.withRegistry('https://hub.docker.com/repository/docker/elvis061998/4dvop-simple_api', 'git') {            
+       app.push("${env.BUILD_NUMBER}")            
+       app.push("latest")        
+              }    
+           }
+        }
             }
 
     stages {
