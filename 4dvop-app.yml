@@ -11,10 +11,10 @@
           - api
         ports:
           - "5001:80"
-	environment:
+        environment:
       	  - USERNAME=user
           - PASSWORD=password
-        volumes:
+         volumes:
           - ./website:/var/www/html
 
 
